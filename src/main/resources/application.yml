@@ -1,0 +1,23 @@
+server:
+  port: 8091
+spring:
+  application:
+    name: valumhomeservice
+  datasource:
+    url: jdbc:mysql://localhost:3306/valum_home?characterEncoding=utf8&useSSL=false
+    username: root
+    password: 866779
+    driver-class-name: com.mysql.cj.jdbc.Driver
+mybatis:
+  type-aliases-package: com.vaxtomis.valumhomeservice.repository
+  mapper-locations: classpath:Mapper/*Repository.xml
+mqtt:
+  host: tcp://111.229.157.49:1883
+  username: admin
+  clientid: valumhomeservice
+  topic[0]: mqtt_devices
+  topic[1]: mqtt_devices
+  qos[0]: 0
+  qos[1]: 1
+  timeout: 10
+  keepalive: 20

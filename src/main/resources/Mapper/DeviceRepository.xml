@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.vaxtomis.valumhomeservice.repository.DeviceRepository">
+    <resultMap id="BaseResultDevice" type="com.vaxtomis.valumhomeservice.entity.Device">
+        <result column="deviceId" property="deviceId" jdbcType="INTEGER"/>
+        <result column="deviceName" property="deviceName" jdbcType="VARCHAR"/>
+        <result column="deviceState" property="deviceState" jdbcType="INTEGER"/>
+        <result column="deviceSign" property="deviceSign" jdbcType="VARCHAR"/>
+        <result column="deviceTopic" property="deviceTopic" jdbcType="VARCHAR"/>
+    </resultMap>
+    <insert id="insertDevice" parameterType="String">
+        insert into device(deviceName,deviceSign,deviceInfo)value (#{deviceName},#{deviceSign},#{deviceInfo})
+    </insert>
+    <select id="selectDeviceById" parameterType="java.lang.Integer" resultType="com.vaxtomis.valumhomeservice.entity.Device">
+        select * from device where deviceId = #{deviceId}
+    </select>
+    <select id="selectDeviceBySign" parameterType="String" resultType="com.vaxtomis.valumhomeservice.entity.Device">
+        select * from device where deviceSign = #{deviceSign}
+    </select>
+    <select id="selectDeviceByName" parameterType="String" resultType="com.vaxtomis.valumhomeservice.entity.Device">
+        select * from device where deviceName = #{deviceName}
+    </select>
+    <select id="selectAllDevice" resultType="com.vaxtomis.valumhomeservice.entity.Device">
+        select * from device order by deviceState desc
+    </select>
+    <update id="updateDeviceStateById">
+        update device set deviceState = #{deviceState} where deviceId = #{deviceId}
+    </update>
+    <update id="updateDeviceStateBySign">
+        update device set deviceState = #{deviceState} where deviceSign = #{deviceSign}
+    </update>
+    <update id="updateDeviceInfoBySign">
+        update device set deviceInfo = #{deviceInfo} where deviceSign = #{deviceSign}
+    </update>
+
+</mapper>
