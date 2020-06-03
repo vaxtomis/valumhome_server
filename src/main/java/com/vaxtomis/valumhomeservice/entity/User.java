@@ -5,7 +5,7 @@ public class User {
     private String userPassword;
     private String userEmail;
     private int userId;
-    private int userLevel;
+    private int userHomeId;
 
     public User() {
     }
@@ -16,12 +16,12 @@ public class User {
         this.userEmail = userEmail;
     }
 
-    public User(String userAccount, String userPassword, String userEmail, int userId, int userLevel) {
+    public User(String userAccount, String userPassword, String userEmail, int userId, int userHomeId) {
         this.userAccount = userAccount;
         this.userPassword = userPassword;
         this.userEmail = userEmail;
         this.userId = userId;
-        this.userLevel = userLevel;
+        this.userHomeId = userHomeId;
     }
 
     public String getUserAccount() {
@@ -56,11 +56,11 @@ public class User {
         this.userId = userId;
     }
 
-    public int getUserLevel() {
-        return userLevel;
+    public int getUserHomeId() {
+        return userHomeId;
     }
 
-    public void setUserLevel(int userLevel) {
-        this.userLevel = userLevel;
+    public void setUserHomeId(int userHomeId) {
+        this.userHomeId = userHomeId;
     }
 }

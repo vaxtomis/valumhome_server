@@ -2,12 +2,17 @@ package com.vaxtomis.valumhomeservice.mqtt.component;
 
 
 import com.vaxtomis.valumhomeservice.entity.MqttPushPayload;
+import com.vaxtomis.valumhomeservice.mqtt.MqttHeartBeatMap;
 import com.vaxtomis.valumhomeservice.mqtt.MqttMsgQueue;
 import com.vaxtomis.valumhomeservice.mqtt.MqttServiceClient;
+import com.vaxtomis.valumhomeservice.repository.DeviceRepository;
+import com.vaxtomis.valumhomeservice.service.impl.DeviceServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import java.util.ArrayList;
 
 @Component
 //由MQ中取出消息分发到线程池
@@ -17,16 +22,11 @@ public class MqttExecuteHandler {
     @Autowired
     private MqttAsyncExecutor mqttAsyncExecutor;
 
+    @Autowired
+    private DeviceServiceImpl deviceServiceImpl;
+
     public void startExecutorLoop(){
         log.info("[MqttHandler]-Start Executor Loop.");
-        /*while (true){
-            if(!MqttMsgQueue.getInstance().isEmpty()){
-                MqttPushPayload payload = MqttMsgQueue.getInstance().pollPayload();
-                if (payload != null){
-                    mqttAsyncExecutor.executeAsync(payload);
-                }
-            }
-        }*/
         handlerThread = new HandlerThread(mqttAsyncExecutor);
         handlerThread.start();
     }
@@ -47,7 +47,7 @@ public class MqttExecuteHandler {
 
     public void startAliveLoop(){
         log.info("[MqttHandler]-Start Alive Loop.");
-        AlvieThread aliveThread = new AlvieThread();
+        AliveThread aliveThread = new AliveThread(deviceServiceImpl);
         aliveThread.start();
     }
 
@@ -74,23 +74,31 @@ public class MqttExecuteHandler {
             }
         }
     }
-    static class AlvieThread extends Thread{
+    static class AliveThread extends Thread{
+        DeviceServiceImpl deviceServiceImpl;
+        AliveThread(DeviceServiceImpl deviceServiceImpl){
+            this.deviceServiceImpl = deviceServiceImpl;
+        }
         @Override
         public void run() {
             while (true){
                 try {
+                    MqttHeartBeatMap.getInstance().cutAll();
+                    ArrayList<String> array =MqttHeartBeatMap.getInstance().remove();
+                    if (!array.isEmpty()){
+                        deviceServiceImpl.updateDeviceInArray(array);
+                    }
                     MqttServiceClient.publish("mqtt_heartbeat"
                             ,new MqttPushPayload.Builder()
                                     .setSender("valumhomeservice")
                                     .setReceiver("ALL")
                                     .setTitle("Alive").build());
-                    Thread.sleep(5000);
+                    Thread.sleep(15000);
+
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
             }
         }
-
     }
-
 }

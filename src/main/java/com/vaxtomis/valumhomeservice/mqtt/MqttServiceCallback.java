@@ -41,8 +41,8 @@ public class MqttServiceCallback implements MqttCallback {
     public void messageArrived(String topic, MqttMessage message) throws Exception {
         String sPayload = new String(message.getPayload());
         /*System.out.println("Topic:" + topic);
-        System.out.println("Message.Qos:" + message.getQos());
-        System.out.println("Message.payload:" + sPayload);*/
+        System.out.println("Message.Qos:" + message.getQos());*/
+        //System.out.println("Message.payload:" + sPayload);
         MqttMsgQueue.getInstance().pushPayloadString(sPayload);
     }
 

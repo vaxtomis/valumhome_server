@@ -14,5 +14,14 @@
     <select id="selectUserByAccount" parameterType="String" resultType="com.vaxtomis.valumhomeservice.entity.User">
         select * from user where userAccount = #{account}
     </select>
+    <select id="selectHomeIdBFromHomeByAccount" resultType="java.lang.Integer">
+        select homeId from home where homeOwner = #{userAccount}
+    </select>
+    <select id="selectHomeIdByAccount" resultType="java.lang.Integer">
+        select userHomeId from user where userAccount = #{userAccount}
+    </select>
+    <update id="updateUserHomeId">
+        update user set userHomeId = #{userHomeId} where userAccount = #{userAccount}
+    </update>
 
 </mapper>

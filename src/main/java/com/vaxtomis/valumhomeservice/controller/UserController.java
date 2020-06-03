@@ -12,10 +12,20 @@ public class UserController {
     private UserService userServiceImpl;
     @RequestMapping(value = "/registe")
     public int userRegiste(String account,String password,String email){
-        return userServiceImpl.userRegisteState(account,password,email);
+        return userServiceImpl.userRegisterState(account,password,email);
     }
     @RequestMapping(value = "/login")
     public int userLogin(String account,String password){
-        return userServiceImpl.userLogiState(account,password);
+        return userServiceImpl.userLogState(account,password);
+    }
+
+    @RequestMapping(value = "/getHomeId")
+    public int getHomeId(String userAccount){
+        return userServiceImpl.getHomeIdByAccount(userAccount);
+    }
+
+    @RequestMapping(value = "/changeHomeId")
+    public int changeHomeId(String userAccount,String ownerAccount){
+        return userServiceImpl.changeHomeIdByOwnerId(userAccount,ownerAccount);
     }
 }

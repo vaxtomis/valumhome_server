@@ -1,11 +1,15 @@
 package com.vaxtomis.valumhomeservice.entity;
 
+
 public class Device {
     private Integer deviceId;
     private String deviceName;
     private int deviceState;
     private String deviceSign;
     private String deviceInfo;
+    private int deviceHome;
+    private String deviceOwner;
+    private String deviceType;
 
     public Device() {
     }
@@ -22,6 +26,25 @@ public class Device {
         this.deviceState = deviceState;
         this.deviceSign = deviceSign;
         this.deviceInfo = deviceInfo;
+    }
+
+    public Device(Integer deviceId, String deviceName, int deviceState, String deviceSign, String deviceInfo, int deviceHome) {
+        this.deviceId = deviceId;
+        this.deviceName = deviceName;
+        this.deviceState = deviceState;
+        this.deviceSign = deviceSign;
+        this.deviceInfo = deviceInfo;
+        this.deviceHome = deviceHome;
+    }
+
+    public Device(Integer deviceId, String deviceName, int deviceState, String deviceSign, String deviceInfo, int deviceHome, String deviceOwner) {
+        this.deviceId = deviceId;
+        this.deviceName = deviceName;
+        this.deviceState = deviceState;
+        this.deviceSign = deviceSign;
+        this.deviceInfo = deviceInfo;
+        this.deviceHome = deviceHome;
+        this.deviceOwner = deviceOwner;
     }
 
     public Integer getDeviceId() {
@@ -62,5 +85,29 @@ public class Device {
 
     public void setDeviceInfo(String deviceInfo) {
         this.deviceInfo = deviceInfo;
+    }
+
+    public int getDeviceHome() {
+        return deviceHome;
+    }
+
+    public void setDeviceHome(int deviceHome) {
+        this.deviceHome = deviceHome;
+    }
+
+    public String getDeviceOwner() {
+        return deviceOwner;
+    }
+
+    public void setDeviceOwner(String deviceOwner) {
+        this.deviceOwner = deviceOwner;
+    }
+
+    public String getDeviceType() {
+        return deviceType;
+    }
+
+    public void setDeviceType(String deviceType) {
+        this.deviceType = deviceType;
     }
 }

@@ -1,15 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.vaxtomis.valumhomeservice.repository.DeviceRepository">
-    <resultMap id="BaseResultDevice" type="com.vaxtomis.valumhomeservice.entity.Device">
-        <result column="deviceId" property="deviceId" jdbcType="INTEGER"/>
-        <result column="deviceName" property="deviceName" jdbcType="VARCHAR"/>
-        <result column="deviceState" property="deviceState" jdbcType="INTEGER"/>
-        <result column="deviceSign" property="deviceSign" jdbcType="VARCHAR"/>
-        <result column="deviceTopic" property="deviceTopic" jdbcType="VARCHAR"/>
-    </resultMap>
+
     <insert id="insertDevice" parameterType="String">
-        insert into device(deviceName,deviceSign,deviceInfo)value (#{deviceName},#{deviceSign},#{deviceInfo})
+        insert into device(deviceName,deviceSign,deviceInfo,deviceOwner,deviceType)value (#{deviceName},#{deviceSign},#{deviceInfo},#{deviceOwner},#{deviceType})
+    </insert>
+    <insert id="insertUpdevice">
+        insert into updevice(updeviceId)value (#{deviceId})
     </insert>
     <select id="selectDeviceById" parameterType="java.lang.Integer" resultType="com.vaxtomis.valumhomeservice.entity.Device">
         select * from device where deviceId = #{deviceId}
@@ -23,6 +20,12 @@
     <select id="selectAllDevice" resultType="com.vaxtomis.valumhomeservice.entity.Device">
         select * from device order by deviceState desc
     </select>
+    <select id="selectAllDeviceInHome" resultType="com.vaxtomis.valumhomeservice.entity.Device">
+        select * from device LEFT OUTER JOIN updevice ON device.deviceId = updevice.updeviceId where homeId = #{homeId} order by deviceState desc
+    </select>
+    <select id="selectAllDeviceByOwner" resultType="com.vaxtomis.valumhomeservice.entity.Updevice">
+        select * from device LEFT OUTER JOIN updevice ON device.deviceId = updevice.updeviceId where deviceOwner = #{deviceOwner} order by deviceState desc
+    </select>
     <update id="updateDeviceStateById">
         update device set deviceState = #{deviceState} where deviceId = #{deviceId}
     </update>
@@ -32,5 +35,17 @@
     <update id="updateDeviceInfoBySign">
         update device set deviceInfo = #{deviceInfo} where deviceSign = #{deviceSign}
     </update>
-
+    <update id="updateDeviceBrightnessById">
+        update updevice set brightness = #{brightness} where updeviceId = #{deviceId}
+    </update>
+    <delete id="deleteDeviceBySign" parameterType="String">
+        delete from device where deviceSign = #{deviceSign}
+    </delete>
+    <update id="updateDeviceInArray" parameterType="java.util.ArrayList">
+        <foreach collection="list" item="deviceSign" index="index" open="" close="" separator=";">
+            update device
+            set deviceState = 0
+            where deviceSign = #{deviceSign}
+        </foreach>
+    </update>
 </mapper>

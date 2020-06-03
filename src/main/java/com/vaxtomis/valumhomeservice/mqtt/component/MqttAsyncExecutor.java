@@ -1,6 +1,7 @@
 package com.vaxtomis.valumhomeservice.mqtt.component;
 
 import com.vaxtomis.valumhomeservice.entity.MqttPushPayload;
+import com.vaxtomis.valumhomeservice.mqtt.MqttHeartBeatMap;
 import com.vaxtomis.valumhomeservice.mqtt.MqttServiceClient;
 import com.vaxtomis.valumhomeservice.service.impl.DeviceServiceImpl;
 import org.slf4j.Logger;
@@ -14,6 +15,7 @@ public class MqttAsyncExecutor {
     private static final Logger log = LoggerFactory.getLogger(MqttAsyncExecutor.class);
     @Autowired
     private DeviceServiceImpl deviceService;
+
 
     @Async("taskExecutor")
     //处理获得的Payload类
@@ -38,9 +40,13 @@ public class MqttAsyncExecutor {
                 case "Info":
                     InfoChange(payload.getSender(),payload.getContent());
                     break;
+                case "RES_Alive":
+                    AliveRegister(payload.getSender(),payload.getContent());
             }
         }
     }
+
+
     private void StateChange(String sender,String content){
         if(deviceService.isDeviceExist(sender)){
             int code = deviceService.updateDeviceStateBySign(sender,Integer.parseInt(content));
@@ -63,6 +69,12 @@ public class MqttAsyncExecutor {
                             .setContent(String.valueOf(code)).build());
         }
 
+    }
+
+    private void AliveRegister(String sender,String deviceState) {
+        if (MqttHeartBeatMap.getInstance().judge(sender)){
+            deviceService.updateDeviceStateBySign(sender,Integer.parseInt(deviceState));
+        }
     }
 
 

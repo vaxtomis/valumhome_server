@@ -10,6 +10,12 @@ public interface UserRepository {
     //增加一个新用户
     int insertUser(String account,String password,String email);
     //查询某个用户(通过账号)
-    User selectUserByAccount(String account);
-    //查询用户Id（通过账号密码）
+    User selectUserByAccount(String userAccount);
+    //修改用户家庭编号
+    Integer updateUserHomeId(int userHomeId,String userAccount);
+    //获取家庭编号（从Home表中）
+    Integer selectHomeIdFromHomeByAccount(String userAccount);
+    //获取用户当前家庭编号（从User表中）
+    Integer selectHomeIdByAccount(String userAccount);
+
 }
