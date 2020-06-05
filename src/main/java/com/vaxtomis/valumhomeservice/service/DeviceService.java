@@ -34,6 +34,6 @@ public interface DeviceService {
     boolean isDeviceExist(String deviceSign);
 
     int deleteDeviceBySign(String deviceSign);
-
-
+    //修改设备的家庭号
+    int updateDeviceHomeId(int deviceHome,String deviceSign,String userAccount);
 }

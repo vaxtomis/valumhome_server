@@ -81,4 +81,9 @@ public class DeviceController {
         }
         return code;
     }
+
+    @RequestMapping(value = "/updateDeviceHomeId")
+    public int updateDeviceHomeId(int deviceHome,String deviceSign,String userAccount){
+        return deviceServiceImpl.updateDeviceHomeId(deviceHome,deviceSign,userAccount);
+    }
 }

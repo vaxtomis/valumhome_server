@@ -23,7 +23,7 @@ public interface DeviceRepository {
     //查询所有设备
     List<Device> selectAllDevice();
     //查询家庭内的设备
-    List<Updevice> selectAllDeviceInHome(int homeId);
+    List<Updevice> selectAllDeviceInHome(int deviceHome);
     //查询所有个人拥有的设备
     List<Updevice> selectAllDeviceByOwner(String deviceOwner);
     //更改设备状态（Id）
@@ -34,8 +34,11 @@ public interface DeviceRepository {
     Integer updateDeviceInfoBySign(String deviceSign,String deviceInfo);
     //修改设备的亮度（Sign）
     Integer updateDeviceBrightnessById(int deviceId,int brightness);
+    //修改设备的家庭号
+    Integer updateDeviceHomeIdBySign(int deviceHome,String deviceSign);
     //删除一个设备（Sign）
     Integer deleteDeviceBySign(String deviceSign);
     //批量更新
     Integer updateDeviceInArray(ArrayList<String> array);
+
 }

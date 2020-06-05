@@ -25,7 +25,7 @@ public class UserController {
     }
 
     @RequestMapping(value = "/changeHomeId")
-    public int changeHomeId(String userAccount,String ownerAccount){
-        return userServiceImpl.changeHomeIdByOwnerId(userAccount,ownerAccount);
+    public int changeHomeId(String userAccount,String ownerAccount,String ownerPassword){
+        return userServiceImpl.changeHomeIdByOwnerId(userAccount,ownerAccount,ownerPassword);
     }
 }

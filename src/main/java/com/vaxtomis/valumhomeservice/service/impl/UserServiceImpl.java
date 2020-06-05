@@ -20,6 +20,7 @@ public class UserServiceImpl implements UserService {
             return -1001;
         }else{
             if((userRepository.insertUser(account,password,email)==1)){
+                userRepository.addhome(account);
                 return 200;
             }else{
                 return -1002;
@@ -42,12 +43,17 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public int changeHomeIdByOwnerId(String userAccount, String ownerAccount) {
+    public int changeHomeIdByOwnerId(String userAccount, String ownerAccount,String ownerPassword) {
         Integer result =userRepository.selectHomeIdByAccount(ownerAccount);
+        User user = userRepository.selectUserByAccount(ownerAccount);
         int code = -1031;
-        if (result!=null){
-            if(userRepository.updateUserHomeId(result,userAccount)>0){
-                code=200;
+        if (result!=null&&user!=null){
+            if(user.getUserPassword().equals(ownerPassword)) {
+                if (userRepository.updateUserHomeId(result, userAccount) > 0) {
+                    code = result;
+                }
+            }else{
+                code = -1033;
             }
         }
         return code;

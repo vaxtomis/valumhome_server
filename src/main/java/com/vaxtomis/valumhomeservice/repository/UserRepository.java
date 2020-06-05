@@ -13,9 +13,9 @@ public interface UserRepository {
     User selectUserByAccount(String userAccount);
     //修改用户家庭编号
     Integer updateUserHomeId(int userHomeId,String userAccount);
-    //获取家庭编号（从Home表中）
-    Integer selectHomeIdFromHomeByAccount(String userAccount);
     //获取用户当前家庭编号（从User表中）
     Integer selectHomeIdByAccount(String userAccount);
+    //添加房间
+    int addhome(String homeOwner);
 
 }

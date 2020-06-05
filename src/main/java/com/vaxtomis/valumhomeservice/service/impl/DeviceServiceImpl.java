@@ -2,6 +2,7 @@ package com.vaxtomis.valumhomeservice.service.impl;
 
 import com.vaxtomis.valumhomeservice.entity.Device;
 import com.vaxtomis.valumhomeservice.entity.Updevice;
+import com.vaxtomis.valumhomeservice.entity.User;
 import com.vaxtomis.valumhomeservice.repository.DeviceRepository;
 import com.vaxtomis.valumhomeservice.service.DeviceService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -75,6 +76,17 @@ public class DeviceServiceImpl implements DeviceService {
     public int updateDeviceStateBySign(String deviceSign, int deviceState) {
         int code = -1021;
         if (deviceRepository.updateDeviceStateBySign(deviceSign,deviceState)>0){
+            code = 200;
+        }
+        return code;
+    }
+
+    @Override
+    public int updateDeviceHomeId(int deviceHome,String deviceSign, String userAccount) {
+        Device device = deviceRepository.selectDeviceBySign(deviceSign);
+        int code = -1023;
+        if (device!=null&&device.getDeviceOwner().equals(userAccount)) {
+            deviceRepository.updateDeviceHomeIdBySign(deviceHome, deviceSign);
             code = 200;
         }
         return code;

@@ -21,13 +21,16 @@
         select * from device order by deviceState desc
     </select>
     <select id="selectAllDeviceInHome" resultType="com.vaxtomis.valumhomeservice.entity.Device">
-        select * from device LEFT OUTER JOIN updevice ON device.deviceId = updevice.updeviceId where homeId = #{homeId} order by deviceState desc
+        select * from device LEFT OUTER JOIN updevice ON device.deviceId = updevice.updeviceId where deviceHome = #{deviceHome} order by deviceState desc
     </select>
     <select id="selectAllDeviceByOwner" resultType="com.vaxtomis.valumhomeservice.entity.Updevice">
         select * from device LEFT OUTER JOIN updevice ON device.deviceId = updevice.updeviceId where deviceOwner = #{deviceOwner} order by deviceState desc
     </select>
     <update id="updateDeviceStateById">
         update device set deviceState = #{deviceState} where deviceId = #{deviceId}
+    </update>
+    <update id="updateDeviceHomeIdBySign">
+        update device set deviceHome = #{deviceHome} where deviceSign = #{deviceSign}
     </update>
     <update id="updateDeviceStateBySign">
         update device set deviceState = #{deviceState} where deviceSign = #{deviceSign}
